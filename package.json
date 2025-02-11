@@ -1,0 +1,18 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "A recipe app from The Complete JavaScript Course 2025: From Zero to Expert! by Jonas Schmedtmann that presents available recipes with essential ingredients and allows users to create their own recipes",
+  "scripts": {
+    "start": "parcel index.html --no-hmr --no-cache",
+    "dev": "(parcel index.html) & parcel watch index.html",
+    "build": "parcel build index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.13.3",
+    "parcel": "^2.13.3",
+    "sass": "^1.84.0"
+  }
+}
