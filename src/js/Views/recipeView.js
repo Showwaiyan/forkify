@@ -129,6 +129,10 @@ class RecipeView {
     this.#clear();
     this.#parentEl.insertAdjacentHTML("afterbegin", markup);
   }
+
+  addHandlerRender(events, element, callback) {
+    events.forEach((ev) => element.addEventListener(ev, callback));
+  }
 }
 
 export default new RecipeView();
