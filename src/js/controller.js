@@ -9,22 +9,22 @@ import "regenerator-runtime/runtime";
 ///////////////////////////////////////
 // For Api data to be fromatted
 const controlRecipe = async function () {
-  try {
-    const id = window.location.hash.slice(1);
-    if (!id) return;
+	try {
+		const id = window.location.hash.slice(1);
+		if (!id) return;
 
-    recipeView.renderSpinner();
+		recipeView.renderSpinner();
 
-    // Loading recipe
-    await model.loadRecipe(id);
-    const { recipe } = model.state;
-    // Rendering recipe
-    recipeView.render(recipe);
-  } catch (err) {
-    alert(err);
-  }
+		// Loading recipe
+		await model.loadRecipe(id);
+		const { recipe } = model.state;
+		// Rendering recipe
+		recipeView.render(recipe);
+	} catch (err) {
+		recipeView.renderErrorMessage();
+	}
 };
 
 (function () {
-  recipeView.addHandlerRender(["hash", "load"], window, controlRecipe);
+	recipeView.addHandlerRender(["hash", "load"], window, controlRecipe);
 })();
