@@ -1,4 +1,4 @@
-import { API_URL } from "./config.js";
+import { API_URL, RES_PER_PAGE } from "./config.js";
 import { getFetch, convertKeysToCamelCaseDeep } from "./helper.js";
 
 export const state = {
@@ -6,6 +6,8 @@ export const state = {
 	search: {
 		query: "",
 		result: [],
+		resultPerPage: RES_PER_PAGE,
+		page: 1,
 	},
 };
 
@@ -27,4 +29,13 @@ export const loadSearchResult = async function (query) {
 	} catch (err) {
 		throw err;
 	}
+};
+
+export const getSearchResultPerPage = function (page = state.search.page) {
+	state.search.page = page;
+
+	const start = (page - 1) * state.search.resultPerPage;
+	const end = page * state.search.resultPerPage;
+
+	return state.search.result.slice(start, end);
 };

@@ -64,7 +64,7 @@ export default class View {
 		this._parentEl.insertAdjacentHTML("afterbegin", markup);
 	}
 
-	addHandlerRender(events, callback, element = this._parentEl) {
+	addHandlerEvents(events, callback, element = this._parentEl) {
 		events.forEach((ev) =>
 			element.addEventListener(ev, (e) => {
 				e.preventDefault();
