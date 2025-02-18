@@ -18,7 +18,8 @@ export default class View {
 	}
 
 	update(data) {
-		if (!data || (Array.isArray(data) && data.length === 0)) return this.renderErrorMessage();
+		//Only Call when render has been called on dedicated Object
+
 		this._data = data;
 		const newMarkUp = this._generateMarkUp();
 

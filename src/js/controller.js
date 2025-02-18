@@ -18,6 +18,8 @@ const controlRecipe = async function () {
 
 		recipeView.renderSpinner();
 
+		resultsView.update(model.getSearchResultPerPage());
+
 		// Loading recipe
 		await model.loadRecipe(id);
 		const { recipe } = model.state;
