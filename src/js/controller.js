@@ -2,11 +2,10 @@ import * as model from "./model.js";
 import recipeView from "./Views/recipeView.js";
 import searchView from "./Views/searchView.js";
 import resultsView from "./Views/resultsView.js";
-import PaginationView from "./Views/resultsView.js";
+import paginationView from "./Views/paginationView.js";
 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import paginationView from "./Views/paginationView.js";
 
 // https://forkify-api.herokuapp.com/v2
 
@@ -47,8 +46,15 @@ const controlPaginatino = function (goToPage) {
 	paginationView.render(model.state.search);
 };
 
+const controlServing = function (newServing) {
+	model.updateServing(newServing);
+
+	recipeView.render(model.state.recipe);
+};
+
 const init = function () {
 	recipeView.addHandlerEvents(["hashchange", "load"], controlRecipe, window);
+	recipeView.addHandlerServing(controlServing);
 	searchView.addHandlerEvents(["submit"], controlSearchRecipes);
 	paginationView.addHandlerEvents(["click"], controlPaginatino);
 };
