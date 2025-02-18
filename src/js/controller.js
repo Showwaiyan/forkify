@@ -49,7 +49,7 @@ const controlPaginatino = function (goToPage) {
 const controlServing = function (newServing) {
 	model.updateServing(newServing);
 
-	recipeView.render(model.state.recipe);
+	recipeView.update(model.state.recipe);
 };
 
 const init = function () {
