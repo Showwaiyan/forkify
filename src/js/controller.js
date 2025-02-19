@@ -29,6 +29,7 @@ const controlRecipe = async function () {
 		bookmarksView.update(model.state.bookmarks);
 	} catch (err) {
 		recipeView.renderErrorMessage();
+		console.log(err);
 	}
 };
 
@@ -69,5 +70,6 @@ const init = function () {
 	searchView.addHandlerEvents(["submit"], controlSearchRecipes);
 	paginationView.addHandlerEvents(["click"], controlPagination);
 	recipeView.addHandlerBookmark(controlBookmark);
+	bookmarksView.addHandlerEvents(["load"], () => bookmarksView.render(model.state.bookmarks), window);
 };
 init();
