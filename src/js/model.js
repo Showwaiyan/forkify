@@ -9,12 +9,18 @@ export const state = {
 		resultPerPage: RES_PER_PAGE,
 		page: 1,
 	},
+	bookmarks: [],
 };
 
 export const loadRecipe = async function (id) {
 	try {
 		const data = await getFetch(`${API_URL}/${id}`);
 		state.recipe = convertKeysToCamelCaseDeep(data.data.recipe);
+
+		// load bookmark
+		if (state.bookmarks.some((recipe) => recipe.id === state.recipe.id)) {
+			state.recipe.bookmarked = true;
+		}
 	} catch (err) {
 		throw err;
 	}
@@ -48,4 +54,18 @@ export const updateServing = function (newServing) {
 		ing.quantity = (ing.quantity * newServing) / state.recipe.servings;
 	});
 	state.recipe.servings = newServing;
+};
+
+export const addBookmark = function (recipe) {
+	state.bookmarks.push(recipe);
+
+	if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+
+export const removeBookmark = function (id) {
+	const index = state.bookmarks.findIndex((recipe) => recipe.id === id);
+
+	state.bookmarks.splice(index, 1);
+
+	if (id === state.recipe.id) state.recipe.bookmarked = false;
 };
