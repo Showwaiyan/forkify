@@ -26,6 +26,9 @@ export const loadSearchResult = async function (query) {
 		const data = await getFetch(`${API_URL}?search=${query}`);
 
 		state.search.result = data.data.recipes.map((recipe) => convertKeysToCamelCaseDeep(recipe));
+
+		// reset the page
+		state.search.page = 1;
 	} catch (err) {
 		throw err;
 	}

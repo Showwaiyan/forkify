@@ -43,7 +43,7 @@ const controlSearchRecipes = async function () {
 	}
 };
 
-const controlPaginatino = function (goToPage) {
+const controlPagination = function (goToPage) {
 	resultsView.render(model.getSearchResultPerPage(goToPage));
 	paginationView.render(model.state.search);
 };
@@ -58,6 +58,6 @@ const init = function () {
 	recipeView.addHandlerEvents(["hashchange", "load"], controlRecipe, window);
 	recipeView.addHandlerServing(controlServing);
 	searchView.addHandlerEvents(["submit"], controlSearchRecipes);
-	paginationView.addHandlerEvents(["click"], controlPaginatino);
+	paginationView.addHandlerEvents(["click"], controlPagination);
 };
 init();
