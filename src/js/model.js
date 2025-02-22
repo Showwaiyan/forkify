@@ -1,5 +1,5 @@
-import { API_URL, RES_PER_PAGE } from "./config.js";
-import { getFetch, convertKeysToCamelCaseDeep } from "./helper.js";
+import { API_URL, RES_PER_PAGE, KEY } from "./config.js";
+import { getFetch, convertKeysToCamelCaseDeep, sendFetch } from "./helper.js";
 
 export const state = {
 	recipe: {},
@@ -76,6 +76,34 @@ export const removeBookmark = function (id) {
 	if (id === state.recipe.id) state.recipe.bookmarked = false;
 
 	persistBookmark();
+};
+
+export const uploadRecipe = async function (newRecipe) {
+	try {
+		const ingredients = Object.entries(newRecipe)
+			.filter((el) => el[0].startsWith("ingredient") && el[1] !== "")
+			.map((ing) => {
+				const ingArr = ing[1].replaceAll(" ", "").split(",");
+				if (ingArr.length !== 3) throw new Error("Wrong ingredient format! Please use the correct format :)");
+
+				const [quantity, unit, description] = ingArr;
+				return { quantity: quantity ? +quantity : null, unit, description };
+			});
+		const recipe = {
+			title: newRecipe.title,
+			source_url: newRecipe.sourceUrl,
+			image_url: newRecipe.image,
+			publisher: newRecipe.publisher,
+			cooking_time: +newRecipe.cookingTime,
+			servings: +newRecipe.servings,
+			ingredients,
+		};
+		const data = await sendFetch(`${API_URL}?key=${KEY}`, recipe);
+		state.recipe = convertKeysToCamelCaseDeep(data.data.recipe);
+		addBookmark(state.recipe);
+	} catch (err) {
+		throw err;
+	}
 };
 
 const init = function () {
