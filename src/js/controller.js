@@ -94,5 +94,6 @@ const init = function () {
 	recipeView.addHandlerBookmark(controlBookmark);
 	bookmarksView.addHandlerEvents(["load"], () => bookmarksView.render(model.state.bookmarks), window);
 	addRecipeView.addHandlerUpload(controlAddRecipe);
+	// addRecipeView.addHandlerFormReset(["click"],addRecipeView.render());
 };
 init();
