@@ -1,5 +1,5 @@
 import { API_URL, RES_PER_PAGE, KEY } from "./config.js";
-import { getFetch, convertKeysToCamelCaseDeep, sendFetch } from "./helper.js";
+import { getFetch, convertKeysToCamelCaseDeep, AJAX } from "./helper.js";
 
 export const state = {
 	recipe: {},
@@ -14,7 +14,7 @@ export const state = {
 
 export const loadRecipe = async function (id) {
 	try {
-		const data = await getFetch(`${API_URL}/${id}`);
+		const data = await AJAX(`${API_URL}/${id}?key=${KEY}`);
 		state.recipe = convertKeysToCamelCaseDeep(data.data.recipe);
 
 		// load bookmark
@@ -29,7 +29,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResult = async function (query) {
 	try {
 		state.search.query = "query";
-		const data = await getFetch(`${API_URL}?search=${query}`);
+		const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
 
 		state.search.result = data.data.recipes.map((recipe) => convertKeysToCamelCaseDeep(recipe));
 
@@ -83,7 +83,7 @@ export const uploadRecipe = async function (newRecipe) {
 		const ingredients = Object.entries(newRecipe)
 			.filter((el) => el[0].startsWith("ingredient") && el[1] !== "")
 			.map((ing) => {
-				const ingArr = ing[1].replaceAll(" ", "").split(",");
+				const ingArr = ing[1].split(",").map((el) => el.trim());
 				if (ingArr.length !== 3) throw new Error("Wrong ingredient format! Please use the correct format :)");
 
 				const [quantity, unit, description] = ingArr;
@@ -98,7 +98,7 @@ export const uploadRecipe = async function (newRecipe) {
 			servings: +newRecipe.servings,
 			ingredients,
 		};
-		const data = await sendFetch(`${API_URL}?key=${KEY}`, recipe);
+		const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
 		state.recipe = convertKeysToCamelCaseDeep(data.data.recipe);
 		addBookmark(state.recipe);
 	} catch (err) {
