@@ -27,6 +27,24 @@ class PaginationView extends View {
             <span>Page ${curPage - 1}</span>
           </button>
             `;
+
+		const pages =
+			curPage <= 3
+				? `<span class=${curPage === 1 ? "current-page" : ""}>1</span>
+            <span class=${curPage === 2 ? "current-page" : ""}>2</span>
+            <span class=${curPage === 3 ? "current-page" : ""}>3</span> ...... ${numPages}`
+				: curPage >= numPages - 2
+				? `1 ...... <span class=${curPage === numPages - 2 ? "current-page" : ""}>${numPages - 2}</span>
+                <span class=${curPage === numPages - 1 ? "current-page" : ""}>${numPages - 1}</span>
+                <span class=${curPage === numPages ? "current-page" : ""}>${numPages}</span>`
+				: `1 ... ${curPage - 1} <span class="current-page">${curPage}</span> ${curPage + 1} ... ${numPages}`;
+		const pageNumbers = `
+            <div class="page-numbers">
+                <p class="pages">
+                    ${pages}
+                </p>
+            </div>
+            `;
 		// result has only one page
 		if (numPages === 1) {
 			return "";
@@ -34,16 +52,15 @@ class PaginationView extends View {
 
 		// result has more than one page and current page is 1
 		if (curPage === 1) {
-			return nextButton;
+			return pageNumbers + nextButton;
 		}
 
 		// current page is last page
 		if (numPages === curPage) {
-			return prevButton;
+			return prevButton + pageNumbers;
 		}
-
 		// current page is between first and last pages
-		return nextButton + prevButton;
+		return prevButton + pageNumbers + nextButton;
 	}
 
 	addHandlerEvents(events, callback, element = this._parentEl) {

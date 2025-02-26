@@ -1,5 +1,5 @@
 import { API_URL, RES_PER_PAGE, KEY } from "./config.js";
-import { getFetch, convertKeysToCamelCaseDeep, AJAX } from "./helper.js";
+import { convertKeysToCamelCaseDeep, AJAX } from "./helper.js";
 
 export const state = {
 	recipe: {},
