@@ -81,9 +81,9 @@ export const removeBookmark = function (id) {
 export const uploadRecipe = async function (newRecipe) {
 	try {
 		const ingredients = Object.entries(newRecipe)
-			.filter((el) => el[0].startsWith("ingredient"))
+			.filter((el) => el[0].startsWith("ingredient") && el[1] !== "")
 			.reduce((acc, [key, value]) => {
-				const [, number, prop] = key.match(/ingredient-(\d+)-(.+)/);
+				const [, number, prop] = key.split("-");
 
 				const index = Number(number) - 1;
 				if (!acc[index]) acc[index] = { quantity: "", unit: "", description: "" };
