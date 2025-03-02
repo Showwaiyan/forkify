@@ -86,9 +86,9 @@ export const uploadRecipe = async function (newRecipe) {
 				const [, number, prop] = key.split("-");
 
 				const index = Number(number) - 1;
-				if (!acc[index]) acc[index] = { quantity: "", unit: "", description: "" };
+				if (!acc[index]) acc[index] = { quantity: null, unit: "", description: "" };
 
-				acc[index][prop] = isFinite(value) ? +value : value === "" ? null : value.trim();
+				acc[index][prop] = isFinite(value) ? +value : value;
 				return acc;
 			}, []);
 
@@ -101,6 +101,7 @@ export const uploadRecipe = async function (newRecipe) {
 			servings: +newRecipe.servings,
 			ingredients,
 		};
+
 		const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
 		state.recipe = convertKeysToCamelCaseDeep(data.data.recipe);
 		addBookmark(state.recipe);
